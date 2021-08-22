@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
+import BookRow from "./BookRow";
+// types
 import { BookToRead } from "./BookToRead";
 
 const dummyBooks: BookToRead[] = [
@@ -24,15 +26,40 @@ const dummyBooks: BookToRead[] = [
 ];
 
 const App = () => {
+  const [books, setBooks] = useState(dummyBooks);
+
+  const handleBookMemoChange = (id: number, memo: string) => {
+    const newBooks = books.map((b) => {
+      return b.id === id
+        ? { ...b, memo: memo}
+        : b;
+    });
+    setBooks(newBooks);
+  };
+
+  const handleBookDelete = (id: number) => {
+    const newBooks = books.filter((b) => b.id !== id);
+    setBooks(newBooks);
+  };
+
+  const bookRow = books.map((b) => {
+    return (
+      <BookRow
+        book={b}
+        key={b.id}
+        onMemoChange={(id, memo) => handleBookMemoChange(id, memo)}
+        onDelete={(id) => handleBookDelete(id)}
+      />
+    );
+  });
+
   return (
     <div className="App">
       <section className="nav">
         <h1>読みたい本リスト</h1>
         <div className="button-like">本を追加</div>
       </section>
-      <section className="main">
-        <h1>チュートリアルを始めましょう</h1>
-      </section>
+      <section className="main">{bookRow}</section>
     </div>
   );
 };
