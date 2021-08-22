@@ -7,15 +7,15 @@ type BookSearchItemProps = {
 };
 
 const BookSearchItem: React.FC<BookSearchItemProps> = ({ description, onBookAdd }) => {
-  const { title, authors, thumbnail } = props.description;
+  const { title, authors, thumbnail } = description;
   const handleAddBookClick = () => {
-    onBookAdd(props.description);
+    onBookAdd(description);
   };
 
   return (
     <div className="book-search-item">
       <h2 title={title}>{title}</h2>
-      <div className="authors" title={authos}>
+      <div className="authors" title={authors}>
         {authors}
       </div>
       {thumbnail ? <img src={thumbnail} alt="" /> : null}
