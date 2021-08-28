@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Modal from "react-modal"
 import BookRow from "./BookRow";
@@ -24,6 +24,8 @@ const customStyles = {
     transform: "translate(-50%, -50%)"
   }
 };
+
+const APP_KEY = "react-hooks-tutorial";
 
 const App = () => {
   const [books, setBooks] = useState([] as BookToRead[]);
@@ -68,6 +70,17 @@ const App = () => {
       />
     );
   });
+
+  useEffect(() => {
+    const storedBooks = localStorage.getItem(APP_KEY);
+    if (storedBooks) {
+      setBooks(JSON.parse(storedBooks));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(APP_KEY, JSON.stringify(books));
+  }, [books]);
 
   return (
     <div className="App">
